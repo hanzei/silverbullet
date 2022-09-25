@@ -6,7 +6,7 @@ import {
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
 import { indentWithTab, standardKeymap } from "@codemirror/commands";
 import { history, historyKeymap } from "@codemirror/commands";
-import { syntaxHighlighting } from "@codemirror/language";
+import { syntaxHighlighting, foldGutter, codeFolding, foldService } from "@codemirror/language";
 import { searchKeymap } from "@codemirror/search";
 import { EditorSelection, EditorState } from "@codemirror/state";
 import {
@@ -401,6 +401,16 @@ export class Editor {
         });
       }
     }
+
+    let fn = function (state: EditorState, lineStart: number, lineEnd: number ): {from: number, to: number} {
+      return {from: 0, to: 1}
+    }
+
+    
+    //const ext = foldService.of(fn)
+    const ext = foldGutter()
+
+
     const editor = this;
     return EditorState.create({
       doc: text,
@@ -423,6 +433,9 @@ export class Editor {
         history(),
         drawSelection(),
         dropCursor(),
+        ext,
+        //foldGutter(),
+        //codeFolding(),
         EditorView.lineWrapping,
         lineWrapper([
           { selector: "ATXHeading1", class: "sb-line-h1" },

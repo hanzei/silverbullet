@@ -1,12 +1,8 @@
 .cm-editor {
   font-size: 18px;
-  padding: 0 20px;
+  margin: auto;
   --max-width: 800px;
-
-  .cm-content {
-    margin: auto;
-    max-width: var(--max-width);
-  }
+  max-width: var(--max-width);
 
   .sb-inline-img {
     max-width: calc(var(--max-width) * 0.9);
@@ -14,6 +10,11 @@
 
   &.cm-focused {
     outline: none !important;
+  }
+
+  .cm-gutters {
+    background-color: unset;
+    border-right: none;
   }
 
   // Weird hack to readjust iOS's safari font-size when contenteditable is disabled

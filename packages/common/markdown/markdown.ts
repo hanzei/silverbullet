@@ -20,6 +20,7 @@ const data = defineLanguageFacet({ block: { open: "<!--", close: "-->" } });
 
 export const commonmark = baseParser.configure({
   props: [
+    /*
     foldNodeProp.add((type) => {
       if (!type.is("Block") || type.is("Document")) return undefined;
       return (tree, state) => ({
@@ -27,11 +28,22 @@ export const commonmark = baseParser.configure({
         to: tree.to,
       });
     }),
+    */
     indentNodeProp.add({
       Document: () => null,
     }),
     languageDataProp.add({
       Document: data,
+    }),
+    foldNodeProp.add((type) => {
+      console.log(type);
+      if (!type.is("ATXHeading1")) return undefined;
+      console.log(type.prop);
+      return (tree, state) => (
+        {
+          from: state.doc.lineAt(tree.from).to,
+          to: tree.to,
+      });
     }),
   ],
 });
